@@ -10,7 +10,7 @@ from time import sleep
 """
 
 server = Server()
-server.set_endpoint("opc.tcp://localhost:4840")
+server.set_endpoint("opc.tcp://localhost:4841")
 namespace = server.register_namespace("Prices_of_Energy_and_Source_Choose")
 
 objects = server.get_objects_node()
@@ -26,13 +26,14 @@ for variable in all_variables:
     eval(f"{variable}.set_writable()")
 
 server.start()
-print("Server starts working")
-use_gas.set_value(True)
-use_electricity.set_value(True)
-price_of_gas.set_value(1000.1)
-price_of_electricity.set_value(1000.1)
-
-print(price_of_electricity.get_value())
-sleep(30)
+print("Server start")
+while True:
+    print("Server is still here")
+    use_gas.set_value(True)
+    use_electricity.set_value(True)
+    price_of_gas.set_value(1000.1)
+    price_of_electricity.set_value(1000.1)
+    print(price_of_electricity.get_value())
+    sleep(20)
 
 
