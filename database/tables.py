@@ -7,5 +7,4 @@ base = declarative_base()
 
 
 class DatasAboutProject(base):
-    
     __tablename__ = 'Datas_about_project'
