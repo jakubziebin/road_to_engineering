@@ -1,9 +1,16 @@
+import os
+import sys
+PROJECT_ROOT = os.path.abspath(os.path.join(
+                  os.path.dirname(__file__), 
+                  os.pardir)
+)
+sys.path.append(PROJECT_ROOT)
+
 from datetime import datetime, date
 from opcua import Client, ua
 from typing import TypeVar
-
-from prices_of_energy.download_energy_prices import PricesOfEnergy
-from prices_of_energy.preparing_datas_to_send import get_price_of_electricity
+from prices_of_energy import preparing_datas_to_send
+from prices_of_energy import PricesOfEnergy
 
 Node = TypeVar('Node')
 
@@ -43,7 +50,7 @@ if __name__ == "__main__":
     client.connect()
 
     actual_hour = str(datetime.now().hour)
-    electricity_price = get_price_of_electricity(actual_hour, electricity_prices)
+    electricity_price = preparing_datas_to_send.get_price_of_electricity(actual_hour, electricity_prices)
 
     write_real_value(f'ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[0]}', electricity_price)
 
