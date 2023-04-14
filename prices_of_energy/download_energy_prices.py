@@ -15,6 +15,9 @@ class PricesOfEnergy:
     def __repr__(self) -> str:
         return f"This class download csv files with prices of gas and electricty"
 
+    def __str__(self) -> str:
+        return f"This class download csv files with prices of gas and electricty"
+        
     def download_electricity_prices(self) -> list[str]:
         prices_file = requests.get(self.url_to_electric)
         decoded_prices_file = prices_file.content.decode('utf-8')

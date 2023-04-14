@@ -7,7 +7,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from sktime.forecasting.model_selection import temporal_train_test_split
-from sktime.forecasting.theta import ThetaForecaster
 
 # Read values from csv file
 with open('ceny_gazu.csv') as f:
@@ -15,6 +14,7 @@ with open('ceny_gazu.csv') as f:
     header = next(reader)
 
     prices = []
+    
     for price in reader:
         price = price[0].replace(";", "")
         prices.append(float(price))
@@ -22,18 +22,15 @@ with open('ceny_gazu.csv') as f:
 # create data frame object
 prices = pd.DataFrame({'price': prices})
 
+y_train, y_test = temporal_train_test_split(prices, test_size=52)
 
-# represent our time series
-#plt.plot(prices.index, prices['price'])
-#plt.show()
+# forecasting horizon
+fh = np.arange(1, 20)
 
-gas_train, gas_test = temporal_train_test_split(prices)
+forecaster = AutoETS()
+forecaster.fit(y_train)
+prediction = forecaster.predict(fh)
 
-fh = np.arange(1, len(gas_test) + 1)  # forecasting horizon
-forecaster = ThetaForecaster(sp=12)  # monthly seasonal periodicity
-forecaster.fit(gas_train)
 
-y_pred = forecaster.predict(fh)
-
-plt.plot(gas_test)
+plt.plot(prediction)
 plt.show()
