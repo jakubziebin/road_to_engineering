@@ -1,12 +1,12 @@
 import requests
 import csv
-"""
-url_to_electric: "https://www.pse.pl/getcsv/-/export/csv/PL_CENY_RYN_EN/data/{today_date_for_electricity}", you need to 
-insert today date in in YMD format. Gas file actually is in the file of the project.
-"""
 
 
 class PricesOfEnergy:
+    """
+    url_to_electric: "https://www.pse.pl/getcsv/-/export/csv/PL_CENY_RYN_EN/data/{today_date_for_electricity}", you need to 
+    insert today date in in YMD format. Gas file actually is in the file of the project.
+    """
 
     def __init__(self, url_to_electric: str, gas_file: str):
         self.url_to_electric = url_to_electric
