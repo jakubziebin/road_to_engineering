@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 To find the price of gas that you need put date: {here_will_be_list_of_datas}
 Hour to find, just put number, but in 24 hour format.

@@ -1,3 +1,4 @@
+from __future__ import annotations
 import os
 import sys
 PROJECT_ROOT = os.path.abspath(os.path.join(
@@ -9,12 +10,12 @@ sys.path.append(PROJECT_ROOT)
 from datetime import datetime, date
 from opcua import Client, ua
 from typing import TypeVar
+
 from prices_of_energy import preparing_datas_to_send
 from prices_of_energy import PricesOfEnergy
 
+
 Node = TypeVar('Node')
-
-
 def read_value(node_id: str) -> Node:
     client_node = client.get_node(node_id)
     client_node_value = client_node.get_value()

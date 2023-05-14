@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import requests
 import csv
 
@@ -25,8 +27,7 @@ class PricesOfEnergy:
         return list(csv_prices)
 
     def get_gas_prices(self) -> list[str]:
-        prices_file = self.gas_file
-        with open(prices_file) as f:
+        with open(self.gas_file) as f:
             csv_prices = csv.reader(f)
             return list(csv_prices)
 
