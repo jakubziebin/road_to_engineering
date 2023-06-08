@@ -4,14 +4,12 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 import matplotlib.pyplot as plt
-from datetime import datetime
 import pandas as pd
 import csv
 
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.stattools import adfuller, kpss
-from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 """
@@ -86,8 +84,9 @@ if __name__ == "__main__":
     prices_df = pd.DataFrame({'price': read_prices_from_csv()})
     analise_time_serie(prices_df)
 
-    model = create_model(prices_df,  0)
+    model = create_model(prices_df,  3-)
 
     plt.plot(model)
     plt.plot(prices_df)
+    plt.title("Porównanie przebiegów, prognoza na miesiąc")
     plt.show()
