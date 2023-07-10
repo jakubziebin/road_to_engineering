@@ -84,7 +84,7 @@ if __name__ == "__main__":
     prices_df = pd.DataFrame({'price': read_prices_from_csv()})
     analise_time_serie(prices_df)
 
-    model = create_model(prices_df,  3-)
+    model = create_model(prices_df,  30)
 
     plt.plot(model)
     plt.plot(prices_df)

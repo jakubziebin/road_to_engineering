@@ -26,9 +26,6 @@ class PricesOfEnergy:
         csv_prices = csv.reader(decoded_prices_file.splitlines(), delimiter=';')
         return list(csv_prices)
 
-    def get_gas_prices(self) -> list[str]:
-        with open(self.gas_file) as f:
-            csv_prices = csv.reader(f)
-            return list(csv_prices)
-
-
+    def get_gas_price(self) -> str:
+       actual_gas_price = "293.43"  # zł/MWh
+       return actual_gas_price

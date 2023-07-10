@@ -6,16 +6,18 @@ PROJECT_ROOT = os.path.abspath(os.path.join(
                   os.pardir)
 )
 sys.path.append(PROJECT_ROOT)
-
 from datetime import datetime, date
-from opcua import Client, ua
 from typing import TypeVar
+from time import sleep
+
+from opcua import Client, ua
 
 from prices_of_energy import preparing_datas_to_send
 from prices_of_energy import PricesOfEnergy
 
 
 Node = TypeVar('Node')
+
 def read_value(node_id: str) -> Node:
     client_node = client.get_node(node_id)
     client_node_value = client_node.get_value()
@@ -38,7 +40,7 @@ def write_bool_value(node_id: str, value: bool) -> None:
 
 if __name__ == "__main__":
     DATA_BLOCK_FOR_OPCUA_COMMUNICATION = "OpcuaPythonTransfer"
-    VARIABLES_IN_PLC = ("PriceOfElectricity", "PriceOfGas", "UseGas", "UseElectricity")
+    VARIABLES_IN_PLC = ("PriceOfElectricity", "PriceOfGas",)
 
     today_date_for_electricity = str(date.today().strftime("%Y%m%d"))
     url_to_electricity = f"https://www.pse.pl/getcsv/-/export/csv/PL_CENY_RYN_EN/data/{today_date_for_electricity}"
@@ -50,8 +52,13 @@ if __name__ == "__main__":
     client = Client('opc.tcp://192.168.1.10:4840')
     client.connect()
 
-    actual_hour = str(datetime.now().hour)
-    electricity_price = preparing_datas_to_send.get_price_of_electricity(actual_hour, electricity_prices)
+    while True:
+        actual_hour = str(datetime.now().hour)
+        electricity_price = preparing_datas_to_send.get_price_of_electricity(actual_hour, electricity_prices)
+        
+        gas_price = preparing_datas_to_send.get_price_of_gas(prices.get_gas_price())
 
-    write_real_value(f'ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[0]}', electricity_price)
+        write_real_value(f'ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[0]}', electricity_price)
+        write_real_value(f'ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[1]}', gas_price)
 
+        sleep(10)
