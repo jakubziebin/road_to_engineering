@@ -40,7 +40,7 @@ def write_bool_value(node_id: str, value: bool) -> None:
 
 if __name__ == "__main__":
     DATA_BLOCK_FOR_OPCUA_COMMUNICATION = "OpcuaPythonTransfer"
-    VARIABLES_IN_PLC = ("PriceOfElectricity", "PriceOfGas",)
+    VARIABLES_IN_PLC = ("PriceOfElectricity", "PriceOfGas", "Tin", "Flow", "Tsp")
 
     today_date_for_electricity = str(date.today().strftime("%Y%m%d"))
     url_to_electricity = f"https://www.pse.pl/getcsv/-/export/csv/PL_CENY_RYN_EN/data/{today_date_for_electricity}"
@@ -57,8 +57,10 @@ if __name__ == "__main__":
         electricity_price = preparing_datas_to_send.get_price_of_electricity(actual_hour, electricity_prices)
         
         gas_price = preparing_datas_to_send.get_price_of_gas(prices.get_gas_price())
+        t_set_point = 71.0
 
-        write_real_value(f'ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[0]}', electricity_price)
+        write_real_value(f"""ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[0]}""", electricity_price)
         write_real_value(f'ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[1]}', gas_price)
+        write_real_value(f"""ns=3;s="OpcuaPythonTransfer".{VARIABLES_IN_PLC[4]}""", t_set_point)
 
         sleep(10)
