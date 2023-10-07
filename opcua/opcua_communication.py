@@ -14,6 +14,7 @@ from opcua import Client, ua
 
 from prices_of_energy import preparing_datas_to_send
 from prices_of_energy import PricesOfEnergy
+from database.db_functions import connect_to_db, put_value_into_db
 
 
 Node = TypeVar('Node')
@@ -37,6 +38,8 @@ def write_bool_value(node_id: str, value: bool) -> None:
     client_node_dv = ua.DataValue(ua.Variant(client_node_value, ua.VariantType.Boolean))
     client_node.set_value(client_node_dv)
 
+
+QUERY_TO_DB = """INSERT INTO TABLE (place_for_value) VALUES ((%s))""" 
 
 if __name__ == "__main__":
     DATA_BLOCK_FOR_OPCUA_COMMUNICATION = "OpcuaPythonTransfer"
